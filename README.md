@@ -23,9 +23,9 @@ The API is easily interacted with for demonstration via OpenAPI/Swagger (see bel
   - A dependency only if you choose to run via Docker
 
 ## Notes on Testing
-Both unit level testing and integration (end-to-end) API testing
-has been implemented and will be automatically invoke when the Maven **install
-phase** or **test phase**
+Both unit level and integration testing (end-to-end API testing)
+has been implemented and will be automatically invoked when the Maven **install
+phase** or **test phase** runs during the build life-cycle.
 
 ## Build and Run
 ### Compile and run all tests via maven
