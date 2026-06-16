@@ -6,9 +6,20 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 
+/**
+ * Basic object factory for the API layer which leverages lombok object builders.
+ * This class hides bloated object creation code.
+ */
 @Component
 public class ApiObjectFactory {
 
+    /**
+     * This 'create' method is used for creating successful API response payloads
+     * @param sumToLimit
+     * @param description
+     * @param sum
+     * @return
+     */
     public PrimeSummationResponse create(int sumToLimit, String description, long sum) {
         return PrimeSummationResponse
                 .builder()
@@ -29,10 +40,22 @@ public class ApiObjectFactory {
                 .build();
     }
 
+    /**
+     * In the event of a service layer exception we can gracefully generate
+     * a response payload via a typed exception: PrimeServiceException
+     * @param e
+     * @return
+     */
     public PrimeSummationResponse create(PrimeServiceException e) {
         return create(e.getMessage());
     }
 
+    /**
+     * In the event of a service layer exception we can gracefully generate
+     * a response payload via a string message
+     * @param message
+     * @return
+     */
     public PrimeSummationResponse create(String message) {
         return PrimeSummationResponse
                 .builder()

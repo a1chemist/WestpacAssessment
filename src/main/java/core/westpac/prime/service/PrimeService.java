@@ -5,6 +5,9 @@ import core.westpac.prime.apiobjects.PrimeSummationResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * Primary service providing the calculation for the sum-of-primes functionality.
+ */
 @Slf4j
 @Service
 public class PrimeService {

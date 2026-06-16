@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+/**
+ * Default error handling current only handles PrimeServiceException but could be
+ * extended for future error handling functionality. Particularly helpful for forming
+ * well-formed responses when things go wrong.
+ */
 @RestControllerAdvice
 public class APIErrorHandling {
 
