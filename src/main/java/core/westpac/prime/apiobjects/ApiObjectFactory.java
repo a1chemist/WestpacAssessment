@@ -30,6 +30,10 @@ public class ApiObjectFactory {
     }
 
     public PrimeSummationResponse create(PrimeServiceException e) {
+        return create(e.getMessage());
+    }
+
+    public PrimeSummationResponse create(String message) {
         return PrimeSummationResponse
                 .builder()
                 .header(
@@ -41,7 +45,7 @@ public class ApiObjectFactory {
                 .errorSummary(
                         ErrorSummary
                                 .builder()
-                                .message(e.getMessage())
+                                .message(message)
                                 .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
                                 .build()
                 )

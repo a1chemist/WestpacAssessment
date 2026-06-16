@@ -2,8 +2,10 @@ package core.westpac.prime.service;
 
 import core.westpac.prime.apiobjects.ApiObjectFactory;
 import core.westpac.prime.apiobjects.PrimeSummationResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class PrimeService {
 
@@ -29,6 +31,9 @@ public class PrimeService {
         if (upToLimit == null) {
             upToLimit = SUMMATION_LIMIT;
         }
+        if (upToLimit < 1) {
+            throw new PrimeServiceException("Prime summation limit must be greater than 0");
+        }
         if (upToLimit > SUMMATION_LIMIT) {
             throw new PrimeServiceException(
                     String.format("Maximum prime summation limit exceeded (max value: %s)", SUMMATION_LIMIT)
@@ -36,15 +41,15 @@ public class PrimeService {
         }
 
         // Default values are false (is prime until consider not)
-        boolean[] isComposite = new boolean[SUMMATION_LIMIT + 1];
+        boolean[] isComposite = new boolean[upToLimit + 1];
         isComposite[0] = true;
         isComposite[1] = true;
 
         // Main algorithm - Sieve of Eratosthenes
-        int sqrtLimit = (int) Math.sqrt(SUMMATION_LIMIT);
+        int sqrtLimit = (int) Math.sqrt(upToLimit);
         for (int p = 2; p <= sqrtLimit; p++) {
             if (!isComposite[p]) {
-                for (int i = p * p; i <= SUMMATION_LIMIT; i += p) {
+                for (int i = p * p; i <= upToLimit; i += p) {
                     isComposite[i] = true;
                 }
             }
@@ -52,16 +57,18 @@ public class PrimeService {
 
         // Calculate the sum ignoring composite numbers (not prime)
         long sum = 0;
-        for (int i = 2; i <= SUMMATION_LIMIT; i++) {
+        for (int i = 2; i <= upToLimit; i++) {
             if (!isComposite[i]) {
                 sum += i;
             }
         }
 
         // Package the result ready for API use
+        String description = "The sum of primes up to " + upToLimit + " is: " + sum;
+        log.info(description);
         return apiObjectFactory.create(
-                SUMMATION_LIMIT,
-                "The sum of primes up to " + SUMMATION_LIMIT + " is: " + sum,
+                upToLimit,
+                description,
                 sum
         );
     }

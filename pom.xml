@@ -13,12 +13,14 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <springdoc.version>2.7.0</springdoc.version>
+        <container.version>latest</container.version>
+        <server.port>8080</server.port>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.15</version>
+        <version>4.1.0</version>
         <relativePath/>
     </parent>
 
@@ -35,6 +37,19 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-restclient</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-resttestclient</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+
 
         <!-- Lombok annotations -->
         <dependency>
@@ -89,6 +104,23 @@
                         -Xshare:off
                         -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
                     </argLine>
+                </configuration>
+            </plugin>
+
+            <!-- Google Jib plugin for container management -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.4</version>
+                <configuration>
+                    <to>
+                        <image>prime-api:${container.version}</image>
+                    </to>
+                    <container>
+                        <ports>
+                            <port>${server.port}</port>
+                        </ports>
+                    </container>
                 </configuration>
             </plugin>
 
